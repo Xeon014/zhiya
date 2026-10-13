@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#F6F4EF">
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCA1MTIgNTEyJz48cmVjdCB3aWR0aD0nNTEyJyBoZWlnaHQ9JzUxMicgcng9Jzk2JyBmaWxsPScjMjMyNzJGJy8+PHBhdGggZD0nTTI1NiA5NiB2MTAwIE0yNTYgMTk2IEMgMjAwIDE5NiAxNzAgMjMwIDE3MCAyOTAgTTI1NiAxOTYgQyAzMTIgMTk2IDM0MiAyMzAgMzQyIDI5MCcgc3Ryb2tlPScjRjZGNEVGJyBzdHJva2Utd2lkdGg9JzIyJyBzdHJva2UtbGluZWNhcD0ncm91bmQnIGZpbGw9J25vbmUnLz48Y2lyY2xlIGN4PScyNTYnIGN5PSc5Nicgcj0nMzQnIGZpbGw9JyNGNEQ2MDcnLz48Y2lyY2xlIGN4PScxNzAnIGN5PSczMTAnIHI9JzM0JyBmaWxsPScjQjM1NjNCJy8+PGNpcmNsZSBjeD0nMzQyJyBjeT0nMzEwJyByPSczNCcgZmlsbD0nIzRFNjM5OCcvPjxjaXJjbGUgY3g9JzI1NicgY3k9JzI1Nicgcj0nMCcvPjwvc3ZnPg==">
+<link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoi5p6d5qGgIiwic2hvcnRfbmFtZSI6IuaeneahoCIsImRlc2NyaXB0aW9uIjoi6YCG5ZCRIFhtaW5kIOWkjeWIu+eahOWNleaWh+S7tuaAnee7tOWvvOWbviIsInN0YXJ0X3VybCI6Ii4iLCJzY29wZSI6Ii4iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjRjZGNEVGIiwidGhlbWVfY29sb3IiOiIjRjZGNEVGIiwiaWNvbnMiOlt7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjRiV3h1Y3owbmFIUjBjRG92TDNkM2R5NTNNeTV2Y21jdk1qQXdNQzl6ZG1jbklIWnBaWGRDYjNnOUp6QWdNQ0ExTVRJZ05URXlKejQ4Y21WamRDQjNhV1IwYUQwbk5URXlKeUJvWldsbmFIUTlKelV4TWljZ2NuZzlKemsySnlCbWFXeHNQU2NqTWpNeU56SkdKeTgrUEhCaGRHZ2daRDBuVFRJMU5pQTVOaUIyTVRBd0lFMHlOVFlnTVRrMklFTWdNakF3SURFNU5pQXhOekFnTWpNd0lERTNNQ0F5T1RBZ1RUSTFOaUF4T1RZZ1F5QXpNVElnTVRrMklETTBNaUF5TXpBZ016UXlJREk1TUNjZ2MzUnliMnRsUFNjalJqWkdORVZHSnlCemRISnZhMlV0ZDJsa2RHZzlKekl5SnlCemRISnZhMlV0YkdsdVpXTmhjRDBuY205MWJtUW5JR1pwYkd3OUoyNXZibVVuTHo0OFkybHlZMnhsSUdONFBTY3lOVFluSUdONVBTYzVOaWNnY2owbk16UW5JR1pwYkd3OUp5TkdORVEyTURjbkx6NDhZMmx5WTJ4bElHTjRQU2N4TnpBbklHTjVQU2N6TVRBbklISTlKek0wSnlCbWFXeHNQU2NqUWpNMU5qTkNKeTgrUEdOcGNtTnNaU0JqZUQwbk16UXlKeUJqZVQwbk16RXdKeUJ5UFNjek5DY2dabWxzYkQwbkl6UkZOak01T0NjdlBqeGphWEpqYkdVZ1kzZzlKekkxTmljZ1kzazlKekkxTmljZ2NqMG5NQ2N2UGp3dmMzWm5QZz09Iiwic2l6ZXMiOiJhbnkiLCJ0eXBlIjoiaW1hZ2Uvc3ZnK3htbCIsInB1cnBvc2UiOiJhbnkifV19">
+<title>枝桠</title>
+</head>
+<body>
+
+<div id="toolbar">
+  <div class="brand"><b>枝桠</b><span>ZHIYA</span></div>
+  <div class="tb-sep"></div>
+  <button class="tb-btn" id="btn-file">文件</button>
+  <button class="tb-btn" id="btn-export">导出</button>
+  <div class="tb-sep"></div>
+  <select id="structure-select" title="结构引擎"></select>
+  <div class="tb-sep"></div>
+  <button class="tb-btn" id="btn-undo" disabled title="撤销 Ctrl+Z">↶</button>
+  <button class="tb-btn" id="btn-redo" disabled title="重做 Ctrl+Y">↷</button>
+  <div class="tb-spacer"></div>
+  <button class="tb-btn" id="btn-sidebar" title="侧边栏：大纲 / 备注 / 快捷键">☰ 侧栏</button>
+</div>
+
+<div id="viewport">
+  <div id="sheet-bar"></div>
+  <div id="hint">
+    <h2>双击主题开始编辑</h2>
+    <p class="kb-only"><em>Tab</em> 添加子主题 · <em>Enter</em> 添加同级 · <em>Space</em> 折叠 · 右键更多操作</p>
+    <p class="touch-only">双击主题编辑 · 长按打开菜单 · 拖动主题调序 · 双指缩放画布</p>
+  </div>
+  <div id="world">
+    <svg id="edges"></svg>
+    <div id="figures"></div>
+  </div>
+</div>
+
+<div id="sidebar">
+  <div class="sb-tabs">
+    <div class="sb-tab active" data-tab="outline">大纲</div>
+    <div class="sb-tab" data-tab="notes">备注</div>
+    <div class="sb-tab" data-tab="style">样式</div>
+    <div class="sb-tab" data-tab="keys">快捷键</div>
+  </div>
+  <div class="sb-body" id="sb-body"></div>
+</div>
+
+<div id="mini-bar">
+  <button id="mb-child" title="添加子主题 Tab">⊕ 子级</button>
+  <button id="mb-sibling" title="添加同级主题 Enter">＋ 同级</button>
+  <button id="mb-note" title="备注 Ctrl+M">✎ 备注</button>
+  <button id="mb-del" title="删除分支 Delete">✕ 删除</button>
+</div>
+
+<div id="zoom-cluster">
+  <button id="zoom-out" title="缩小">−</button>
+  <button id="zoom-fit" title="适应画布">▣</button>
+  <button id="zoom-in" title="放大">＋</button>
+  <span id="zoom-pct">100%</span>
+</div>
+
+<div id="statusbar"><div id="stat-left">—</div></div>
+
+<div id="toast"></div>
+<div id="drop-line"></div>
+<div id="ctx-menu"></div>
+<div id="find-bar">
+  <input id="find-input" placeholder="查找标题与备注…" />
+  <span id="find-count"></span>
+  <button id="find-prev" title="上一个 (Shift+Enter)">↑</button>
+  <button id="find-next" title="下一个 (Enter)">↓</button>
+  <input id="find-replace" placeholder="替换为…" />
+  <button id="find-replace-btn" title="替换当前">替换</button>
+  <button id="find-replace-all" title="全部替换">全部</button>
+  <button id="find-close" title="关闭 (Esc)">×</button>
+</div>
+<div id="note-panel">
+  <header><span id="note-topic">—</span><b>备注</b><button id="note-close">×</button></header>
+  <textarea id="note-input" placeholder="为此主题添加备注（Esc 收起）"></textarea>
+</div>
+<input type="file" id="file-input" accept=".json,.xmind" hidden>
+<input type="file" id="image-input" accept="image/*" hidden>
+<input type="file" id="attach-input" hidden>
+<input type="file" id="theme-input" accept=".json,application/json" hidden>
+<div id="href-panel">
+  <span class="hp-title">链接</span>
+  <input id="href-input" placeholder="https:// 或选择附件后自动填入" />
+  <button id="href-ok">确定</button>
+  <button id="href-cancel">取消</button>
+</div>
+
+<script type="module" src="/src/main.ts"></script>
+</body>
+</html>

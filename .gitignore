@@ -1,0 +1,10 @@
+node_modules/
+.npm-cache/
+dist/
+output/
+.zcode/
+release/*.zip
+release/枝桠.html
+*.log
+.env
+.env.*
