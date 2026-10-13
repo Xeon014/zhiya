@@ -1,6 +1,6 @@
 {
   "name": "zhiya",
-  "version": "1.22.0",
+  "version": "1.23.0",
   "description": "枝桠 Zhiya —— 逆向 Xmind 复刻的单文件思维导图（工程化版）",
   "private": true,
   "type": "module",

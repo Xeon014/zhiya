@@ -184,13 +184,15 @@ try {
   console.log('角标约束: 有笔记主题', dotCheck.hasNote, '/ 可见角标', dotCheck.dots,
     (dotCheck.hasNote === dotCheck.dots && dotCheck.dots >= 1) ? '✓' : '✗');
 
-  // 6b5. 迷你工具条：跟随选中主题 + 点击加子级
-  const mbShown = await page.evaluate(() => getComputedStyle(document.getElementById('mini-bar')).display !== 'none');
+  // 6b5. 选中操作：节点旁 + 钮 + 点击加子级
+  await page.locator('.topic', { hasText: '结构引擎' }).first().click();
+  await page.waitForTimeout(280);
+  const mbShown = await page.evaluate(() => getComputedStyle(document.getElementById('topic-add-btn')).display !== 'none');
   const beforeMb = await visCount();
-  await page.click('#mb-child'); await page.waitForTimeout(350);
+  await page.click('#topic-add-btn'); await page.waitForTimeout(350);
   const mbAdded = await visCount();
   await page.keyboard.press('Escape'); await page.waitForTimeout(200);
-  console.log('迷你工具条: 显示', mbShown ? '✓' : '✗', '| 点击⊕子级 +1:', mbAdded === beforeMb + 1 ? '✓' : `✗(${mbAdded})`);
+  console.log('选中加子级钮: 显示', mbShown ? '✓' : '✗', '| 点击 +1:', mbAdded === beforeMb + 1 ? '✓' : `✗(${mbAdded})`);
 
   // 6b6a. 样式系统：侧栏样式页 → 菱形 + 填充色 → 撤销
   await page.locator('.topic', { hasText: '结构引擎' }).first().click();

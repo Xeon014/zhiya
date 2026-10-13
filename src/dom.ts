@@ -16,4 +16,3 @@ export const ctxMenu = $('ctx-menu') as HTMLDivElement;
 export const dropLine = $('drop-line') as HTMLDivElement;
 export const sidebarEl = $('sidebar') as HTMLDivElement;
 export const sbBody = $('sb-body') as HTMLDivElement;
-export const miniBar = $('mini-bar') as HTMLDivElement;

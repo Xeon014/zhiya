@@ -104,15 +104,58 @@
   .chevron:hover { border-color: var(--ink); color: var(--ink); transform: translate(-50%,-50%) scale(1.18); }
   .chevron.collapsed { background: var(--ink); border-color: var(--ink); color: var(--paper); }
 
+  /* 选中主题：外侧「+」添加子级（随画布缩放平移） */
+  .topic-add-btn {
+    position: absolute; transform: translate(-50%, -50%);
+    width: 22px; height: 22px; border-radius: 50%; z-index: 6;
+    border: 1.5px solid var(--accent); background: white; color: var(--accent);
+    font: 600 15px/1 var(--font); padding: 0; cursor: pointer;
+    box-shadow: var(--shadow-soft);
+    transition: transform .15s ease, background .15s ease, color .15s ease;
+  }
+  .topic-add-btn:hover {
+    background: var(--accent); color: white; transform: translate(-50%, -50%) scale(1.12);
+  }
+
   /* ============ 状态栏 ============ */
   #statusbar {
     position: fixed; inset: auto 0 0 0; height: calc(var(--sb-h) + env(safe-area-inset-bottom, 0px)); z-index: 40;
-    display: flex; align-items: center; justify-content: space-between;
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
     padding: 0 14px env(safe-area-inset-bottom, 0px);
     background: color-mix(in srgb, var(--paper) 86%, white);
     border-top: 1px solid var(--hairline);
     font-size: 11px; color: var(--ink-faint); user-select: none;
   }
+  .stat-leading { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
+  #stat-left { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .stat-actions { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+  .stat-actions[hidden] { display: none !important; }
+  .stat-act {
+    border: 1px solid var(--hairline); background: white; border-radius: 6px;
+    padding: 2px 8px; font: 500 11px var(--font); color: var(--ink-soft); cursor: pointer;
+  }
+  .stat-act:hover:not(:disabled) { color: var(--ink); border-color: var(--ink-faint); }
+  .stat-act:disabled { opacity: .35; cursor: default; }
+  .stat-act.danger:hover:not(:disabled) { color: #b42318; border-color: #e8b4b0; }
+
+  #mobile-selection-bar {
+    position: fixed; left: 8px; right: 8px; z-index: 45; display: none;
+    bottom: calc(var(--sb-h) + env(safe-area-inset-bottom, 0px) + 6px);
+    gap: 6px; padding: 6px;
+    background: white; border: 1px solid var(--hairline); border-radius: 12px;
+    box-shadow: var(--shadow-lift);
+  }
+  body.mobile-ui #mobile-selection-bar.visible { display: flex; }
+  body.mobile-ui.has-selection #zoom-cluster {
+    bottom: calc(var(--sb-h) + env(safe-area-inset-bottom, 0px) + 52px);
+  }
+  #mobile-selection-bar button {
+    flex: 1; min-height: 38px; border: none; border-radius: 8px;
+    background: var(--paper-deep); font: 500 13px var(--font); color: var(--ink); cursor: pointer;
+  }
+  #mobile-selection-bar button:disabled { opacity: .35; cursor: default; }
+  #mobile-selection-bar #ms-del:not(:disabled) { color: #b42318; }
+
   #statusbar .keys { display: flex; gap: 14px; }
   #statusbar .keys em { font-style: normal; color: var(--ink-soft); font-family: var(--mono); font-size: 10px;
     background: var(--paper-deep); padding: 1px 5px; border-radius: 3px; margin-right: 3px; }
@@ -242,15 +285,6 @@
   .keys-body em { font-style: normal; font-family: var(--mono); font-size: 10.5px; color: var(--ink-soft);
     background: var(--paper-deep); padding: 1px 6px; border-radius: 4px; margin-right: 6px; }
 
-  #mini-bar {
-    position: fixed; display: none; z-index: 46;
-    background: var(--ink); border-radius: 9px; padding: 3px;
-    box-shadow: var(--shadow-lift);
-  }
-  #mini-bar button { border: none; background: none; color: var(--paper); font: 500 12px var(--font); padding: 5px 9px; border-radius: 7px; cursor: pointer; white-space: nowrap; }
-  #mini-bar button:hover:not(:disabled) { background: rgba(255,255,255,.16); }
-  #mini-bar button:disabled { opacity: .35; cursor: default; }
-
   #zoom-cluster {
     position: fixed; right: 16px;
     bottom: calc(42px + env(safe-area-inset-bottom, 0px)); z-index: 44;
@@ -264,7 +298,7 @@
 
   @media print {
     #toolbar, #statusbar, .chevron, #toast, #drop-line, #note-panel, #hint,
-    #sidebar, #mini-bar, #zoom-cluster { display: none !important; }
+    #sidebar, #topic-add-btn, #stat-actions, #mobile-selection-bar, #zoom-cluster { display: none !important; }
     #viewport { position: static !important; overflow: visible !important; background: white !important; }
     html, body { height: auto !important; overflow: visible !important; background: white; }
   }
@@ -441,7 +475,7 @@
   .summary-handle:hover { opacity: 1; border-color: var(--accent); transform: translate(-50%, -50%) scale(1.3); }
 
   /* ============ 触屏：接管手势 ============ */
-  #viewport, .topic, .chevron, .summary-topic, .summary-handle, #note-panel textarea { touch-action: none; }
+  #viewport, .topic, .chevron, .topic-add-btn, .summary-topic, .summary-handle, #note-panel textarea { touch-action: none; }
   .topic, .summary-topic, .chevron { -webkit-touch-callout: none; -webkit-user-select: none; }
   html { -webkit-text-size-adjust: 100%; }
   #hint .touch-only { display: none; }
@@ -477,7 +511,7 @@
     .tb-btn { min-height: 36px; }
     #zoom-cluster { bottom: 40px; right: 10px; }
     #zoom-cluster button { width: 34px; height: 32px; }
-    #mini-bar button { padding: 8px 12px; font-size: 13px; }
+    .topic-add-btn { width: 26px; height: 26px; font-size: 17px; }
     .ctx-item { padding: 11px 12px; font-size: 14px; }
     .shape-btn { min-height: 36px; }
     .swatch { width: 28px; height: 28px; }
@@ -540,7 +574,8 @@
   .topic.hit-cur { box-shadow: var(--shadow-lift), 0 0 0 4px rgba(244, 214, 7, .95) !important; }
 
   /* ============ ZEN 演示模式（F5） ============ */
-  body.zen #toolbar, body.zen #statusbar, body.zen #sidebar, body.zen #mini-bar,
+  body.zen #toolbar, body.zen #statusbar, body.zen #sidebar, body.zen #topic-add-btn,
+  body.zen #stat-actions, body.zen #mobile-selection-bar,
   body.zen #zoom-cluster, body.zen #sheet-bar, body.zen #find-bar, body.zen #toast { display: none !important; }
   body.zen #viewport { inset: 0 !important; }
   body.zen .topic { transition: opacity .35s ease; }

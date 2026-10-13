@@ -3,7 +3,7 @@ import { engine } from './engines';
 import { figureMap, figureOf, makeMeasureContext } from './figures';
 import { updateStatus } from './ui';
 import { updateNoteAnchor } from './notes';
-import { updateMiniBar } from './minibar';
+import { syncLayoutBoxes, updateMiniBar } from './minibar';
 import { clamp, easeOutCubic } from './utils';
 import { edgesEl } from './dom';
 import { edgePathFor, getTheme, applyTheme, effectiveStyle, releaseThemePaint, releaseStaleThemePaint } from './edges';
@@ -192,6 +192,12 @@ export function relayout(animate = true): void {
     }
     paintBranches(layers.branches, branchSpecs(posNow));
     updateNoteAnchor();
+    const boxes = new Map<string, import('./engines').Box>();
+    for (const [id, cur] of posNow) {
+      const tr = targets.get(id);
+      if (tr) boxes.set(id, { ...tr.p, x: cur.x, y: cur.y });
+    }
+    syncLayoutBoxes(boxes);
     updateMiniBar();
   };
 

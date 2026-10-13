@@ -5,6 +5,16 @@ import { sheet, topicOf, type Topic } from './model';
  *    引擎接口契约：measure → arrange → edgePath/decorEdges/chevronAt
  * ===================================================================== */
 export interface Box { x: number; y: number; w: number; h: number; side: string }
+
+/** 选中主题「添加子级」钮：沿分支生长方向外侧（与折叠 chevron 错开） */
+export function addChildButtonAt(p: Box): { x: number; y: number } {
+  switch (p.side) {
+    case 'left': return { x: p.x - p.w / 2 - 15, y: p.y };
+    case 'top': return { x: p.x, y: p.y - p.h / 2 - 15 };
+    case 'bottom': return { x: p.x, y: p.y + p.h / 2 + 15 };
+    default: return { x: p.x + p.w / 2 + 15, y: p.y };
+  }
+}
 export interface Size { w: number; h: number }
 export interface MeasureCtx { gapV: number; gapH: number; sizeOf(t: Topic): Size }
 export interface GrowthSplit { right: string[]; left: string[] }

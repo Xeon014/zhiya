@@ -47,13 +47,6 @@
   <div class="sb-body" id="sb-body"></div>
 </div>
 
-<div id="mini-bar">
-  <button id="mb-child" title="添加子主题 Tab">⊕ 子级</button>
-  <button id="mb-sibling" title="添加同级主题 Enter">＋ 同级</button>
-  <button id="mb-note" title="备注 Ctrl+M">✎ 备注</button>
-  <button id="mb-del" title="删除分支 Delete">✕ 删除</button>
-</div>
-
 <div id="zoom-cluster">
   <button id="zoom-out" title="缩小">−</button>
   <button id="zoom-fit" title="适应画布">▣</button>
@@ -62,7 +55,23 @@
 </div>
 
 <div id="sidebar-backdrop" aria-hidden="true"></div>
-<div id="statusbar"><div id="stat-left">—</div><div id="stat-right">v—</div></div>
+<div id="mobile-selection-bar" aria-hidden="true">
+  <button type="button" id="ms-child" title="添加子主题 Tab">子级</button>
+  <button type="button" id="ms-sibling" title="添加同级 Enter">同级</button>
+  <button type="button" id="ms-note" title="备注 Ctrl+M">备注</button>
+  <button type="button" id="ms-del" title="删除分支 Delete">删除</button>
+</div>
+<div id="statusbar">
+  <div class="stat-leading">
+    <div id="stat-left">—</div>
+    <div id="stat-actions" class="stat-actions" hidden aria-hidden="true">
+      <button type="button" class="stat-act" id="sa-sibling" title="添加同级主题 Enter">同级</button>
+      <button type="button" class="stat-act" id="sa-note" title="备注 Ctrl+M">备注</button>
+      <button type="button" class="stat-act danger" id="sa-del" title="删除分支 Delete">删除</button>
+    </div>
+  </div>
+  <div id="stat-right">v—</div>
+</div>
 
 <div id="toast"></div>
 <div id="drop-line"></div>

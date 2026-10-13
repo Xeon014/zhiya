@@ -2,6 +2,12 @@
 
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.23.0] - 2026-10-13
+
+### Changed
+
+- 选中主题：移除深色浮动迷你条；子级改为节点外侧「+」钮，同级/备注/删除在状态栏（移动端为底栏）
+
 ## [1.22.0] - 2026-10-13
 
 ### Added
