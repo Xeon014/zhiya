@@ -17,9 +17,9 @@
   <button class="tb-btn" id="btn-export">导出</button>
   <div class="tb-sep"></div>
   <select id="structure-select" title="结构引擎"></select>
-  <div class="tb-sep"></div>
-  <button class="tb-btn" id="btn-undo" disabled title="撤销 Ctrl+Z">↶</button>
-  <button class="tb-btn" id="btn-redo" disabled title="重做 Ctrl+Y">↷</button>
+  <div class="tb-sep tb-narrow-hide"></div>
+  <button class="tb-btn tb-narrow-hide" id="btn-undo" disabled title="撤销 Ctrl+Z">↶</button>
+  <button class="tb-btn tb-narrow-hide" id="btn-redo" disabled title="重做 Ctrl+Y">↷</button>
   <div class="tb-spacer"></div>
   <button class="tb-btn" id="btn-sidebar" title="侧边栏：大纲 / 备注 / 快捷键">☰ 侧栏</button>
 </div>
@@ -61,7 +61,8 @@
   <span id="zoom-pct">100%</span>
 </div>
 
-<div id="statusbar"><div id="stat-left">—</div></div>
+<div id="sidebar-backdrop" aria-hidden="true"></div>
+<div id="statusbar"><div id="stat-left">—</div><div id="stat-right">v—</div></div>
 
 <div id="toast"></div>
 <div id="drop-line"></div>

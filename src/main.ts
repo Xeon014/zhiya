@@ -20,6 +20,7 @@ import { initTouchGestures } from './gestures';
 import { isPickingRelationship, cancelRelationshipPick } from './relationships';
 import { notePanel, noteInput, ctxMenu } from './dom';
 import { renderSheetTabs } from './overlays';
+import { initMobileUX } from './mobile';
 
 /* =====================================================================
  * 九、键盘与工具栏接线
@@ -158,4 +159,5 @@ refreshSheetTabs();
 initFind();
 initLinkPanel();
 initMediaInputs();
+initMobileUX();
 init();

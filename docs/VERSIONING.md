@@ -9,12 +9,21 @@
 
 ## 发版检查清单
 
-1. 更新 `CHANGELOG.md`
-2. `npm test`
-3. `npm run build`
-4. 提交并打标签：`git tag -a vX.Y.Z -m "vX.Y.Z"`
-5. `git push && git push origin vX.Y.Z`
-6. GitHub Pages 在推送 `main` 后自动部署（`.github/workflows/pages.yml`）
+1. 修改 `package.json` 的 `version`（语义化版本）
+2. 更新 `CHANGELOG.md`
+3. `npm test`
+4. `npm run build`（可选 `npm run release` 打 zip）
+5. 提交：`git commit -m "release: vX.Y.Z"`
+6. 打标签：`git tag -a vX.Y.Z -m "vX.Y.Z"`
+7. 推送：`git push origin main --tags`
+8. GitHub Pages 在推送 `main` 后自动部署（`.github/workflows/pages.yml`）
+
+## 已发布标签
+
+| 标签 | 说明 |
+|------|------|
+| `v1.21.0` | 移动端适配前的功能基线 |
+| `v1.22.0` | 移动端 P0 + 应用内版本展示 |
 
 ## 与 Xmind 导出 metadata 的区别
 

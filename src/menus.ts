@@ -15,6 +15,7 @@ import { clamp } from './utils';
 import { zoom as zoomVal, pan as panVal } from './view';
 import { toast } from './ui';
 import { ctxMenu, viewportEl } from './dom';
+import { isMobileLayout, positionCtxMenuForMobile, resetCtxMenuLayout } from './mobile';
 
 /* =====================================================================
  * 6.7 右键上下文菜单（主题菜单 / 画布菜单）
@@ -23,6 +24,7 @@ export interface CtxMenuItem { label: string; kbd?: string; disabled?: boolean; 
 export type CtxMenuItems = (CtxMenuItem | '-')[];
 
 export function showCtxMenu(x: number, y: number, items: CtxMenuItems): void {
+  resetCtxMenuLayout(ctxMenu);
   ctxMenu.innerHTML = '';
   for (const it of items) {
     if (it === '-') {
@@ -38,11 +40,18 @@ export function showCtxMenu(x: number, y: number, items: CtxMenuItems): void {
     ctxMenu.appendChild(b);
   }
   ctxMenu.classList.add('open');
+  if (isMobileLayout()) {
+    positionCtxMenuForMobile(ctxMenu, x, y);
+    return;
+  }
   const mw = ctxMenu.offsetWidth, mh = ctxMenu.offsetHeight;
   ctxMenu.style.left = clamp(x, 8, innerWidth - mw - 8) + 'px';
   ctxMenu.style.top = clamp(y, 8, innerHeight - mh - 8) + 'px';
 }
-export function hideCtxMenu(): void { ctxMenu.classList.remove('open'); }
+export function hideCtxMenu(): void {
+  ctxMenu.classList.remove('open');
+  resetCtxMenuLayout(ctxMenu);
+}
 
 export function topicMenu(id: string, x: number, y: number): void {
   if (editingId) stopEdit(true);
@@ -130,8 +139,12 @@ function insertDetachedAt(cx: number, cy: number): void {
   startEdit(t.id);
 }
 
-window.addEventListener('pointerdown', (e) => { if (!ctxMenu.contains(e.target as Node)) hideCtxMenu(); }, true);
-window.addEventListener('contextmenu', (e) => { if (!ctxMenu.contains(e.target as Node)) hideCtxMenu(); });
+const outsideCtxMenu = (e: Event): boolean => {
+  const t = e.target;
+  return !(t instanceof Node) || !ctxMenu.contains(t);
+};
+window.addEventListener('pointerdown', (e) => { if (outsideCtxMenu(e)) hideCtxMenu(); }, true);
+window.addEventListener('contextmenu', (e) => { if (outsideCtxMenu(e)) hideCtxMenu(); });
 window.addEventListener('blur', hideCtxMenu);
 viewportEl.addEventListener('contextmenu', (e) => {
   e.preventDefault();

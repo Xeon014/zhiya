@@ -98,7 +98,7 @@ describe('模型层：.xmind content.json 序列化回路', () => {
       dataStructureVersion: '3',
       layoutEngineVersion: '5',
       activeSheetId: shaped[0]!.id,
-      creator: { name: 'Vana', version: '26.05.01107' }
+      creator: { name: 'Zhiya', version: (await import('../src/version')).APP_VERSION }
     });
     const manifest = JSON.parse(await text('manifest.json'));
     expect(manifest['file-entries']).toEqual({

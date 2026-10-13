@@ -4,6 +4,7 @@ import { canUndo, canRedo } from './persistence';
 import { updateMiniBar } from './minibar';
 import { renderSidebar } from './sidebar';
 import { zoom } from './view';
+import { APP_VERSION } from './version';
 
 /* UI 汇聚点：状态栏 / 缩放百分比 / 工具条可用性 / 侧栏与迷你条刷新 */
 let toastTimer: ReturnType<typeof setTimeout> | undefined;
@@ -20,6 +21,8 @@ export function updateStatus(): void {
   const n = subtreeCount(sheet.root);
   const stat = document.getElementById('stat-left');
   if (stat) stat.textContent = `${engine().label} · ${n} 个主题`;
+  const ver = document.getElementById('stat-right');
+  if (ver) ver.textContent = `v${APP_VERSION}`;
   const pct = document.getElementById('zoom-pct');
   if (pct) pct.textContent = (zoom * 100).toFixed(0) + '%';
   const undoBtn = document.getElementById('btn-undo') as HTMLButtonElement | null;

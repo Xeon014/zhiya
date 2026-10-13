@@ -649,9 +649,22 @@ await page.waitForTimeout(400);
 
   const p3 = await centerOf('持久化');
   const cdp = await tctx.newCDPSession(tp);
-  await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: p3.x, y: p3.y }] });
-  await tp.waitForTimeout(650);
-  await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  // CDP touch 不一定合成 pointerType=touch；长按菜单走 Pointer Events 会话
+  await tp.evaluate(({ x, y }) => {
+    const target = document.elementFromPoint(x, y) ?? document.body;
+    target.dispatchEvent(new PointerEvent('pointerdown', {
+      bubbles: true, cancelable: true, clientX: x, clientY: y,
+      pointerId: 77, pointerType: 'touch', isPrimary: true, buttons: 1
+    }));
+  }, p3);
+  await tp.waitForTimeout(550);
+  await tp.evaluate(({ x, y }) => {
+    const target = document.elementFromPoint(x, y) ?? document.body;
+    target.dispatchEvent(new PointerEvent('pointerup', {
+      bubbles: true, cancelable: true, clientX: x, clientY: y,
+      pointerId: 77, pointerType: 'touch', isPrimary: true, buttons: 0
+    }));
+  }, p3);
   await tp.waitForTimeout(350);
   const menuOpen = await tp.evaluate(() => document.getElementById('ctx-menu').classList.contains('open'));
   const menuTxt = await tp.evaluate(() => document.getElementById('ctx-menu').textContent);

@@ -1,4 +1,5 @@
 import { uid } from './utils';
+import { APP_VERSION } from './version';
 import { StructureEngines } from './engines';
 import { SHAPES } from './shapes';
 
@@ -613,7 +614,7 @@ export function xmindPackageFiles(
     { name: 'metadata.json', data: enc.encode(JSON.stringify({
       dataStructureVersion: '3',
       layoutEngineVersion: '5',
-      creator: { name: 'Vana', version: '26.05.01107' },
+      creator: { name: 'Zhiya', version: APP_VERSION },
       activeSheetId: sheets[0]?.id ?? ''
     })) }
   ];

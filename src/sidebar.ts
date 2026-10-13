@@ -11,6 +11,7 @@ import { allThemes, effectiveStyle, getTheme, releaseThemePaint } from './edges'
 import { xmindThemeToPreset, presetToXmindTheme, addCustomTheme } from './theme-presets';
 import { SHAPE_GROUPS } from './shapes';
 import { MARKER_GROUPS, MARKERS } from './markers';
+import { closeSidebarMobile, isMobileLayout, openSidebarMobile } from './mobile';
 
 /* =====================================================================
  * 6.8a 侧边栏（大纲 / 备注 / 样式 / 快捷键）
@@ -390,7 +391,12 @@ document.querySelectorAll<HTMLElement>('.sb-tab').forEach(tab => {
   };
 });
 document.getElementById('btn-sidebar')?.addEventListener('click', () => {
-  sidebarEl.classList.toggle('open');
+  const open = !sidebarEl.classList.contains('open');
+  sidebarEl.classList.toggle('open', open);
+  if (isMobileLayout()) {
+    if (open) openSidebarMobile();
+    else closeSidebarMobile();
+  }
   renderSidebar();
 });
 

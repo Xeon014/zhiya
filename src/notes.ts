@@ -5,6 +5,7 @@ import { pushHistory, autosave } from './persistence';
 import { editingId, stopEdit } from './interactions';
 import { clamp } from './utils';
 import { notePanel, noteInput, noteTopic } from './dom';
+import { isMobileLayout } from './mobile';
 
 /* =====================================================================
  * 6.6 备注弹层（锚定在目标主题旁，随画布平移/缩放/布局动画跟随；
@@ -78,15 +79,36 @@ export function updateNoteAnchor(): void {
   const f = figureMap.get(noteTargetId);
   const t = topicOf(noteTargetId);
   if (!f || !t || f.el.style.display === 'none') { closeNote(false); return; }
-  const r = f.el.getBoundingClientRect();
+
+  const vv = window.visualViewport;
+  const vh = vv?.height ?? innerHeight;
+  const vTop = vv?.offsetTop ?? 0;
   const pw = notePanel.offsetWidth, ph = notePanel.offsetHeight;
+
+  if (isMobileLayout()) {
+    notePanel.classList.add('mobile-dock');
+    notePanel.style.left = '8px';
+    notePanel.style.right = '8px';
+    notePanel.style.width = 'auto';
+    notePanel.style.top = 'auto';
+    const bottom = Math.max(8, innerHeight - vTop - vh + 8);
+    notePanel.style.bottom = `calc(${bottom}px + env(safe-area-inset-bottom, 0px))`;
+    return;
+  }
+  notePanel.classList.remove('mobile-dock');
+  notePanel.style.right = '';
+  notePanel.style.bottom = '';
+  notePanel.style.width = '';
+  const r = f.el.getBoundingClientRect();
   let x = r.right + 14;
-  if (x + pw > innerWidth - 8) x = r.left - pw - 14;              // 右侧放不下 → 左侧
+  if (x + pw > innerWidth - 8) x = r.left - pw - 14;
   if (x < 8) x = clamp(r.left, 8, innerWidth - pw - 8);
-  const y = clamp(r.top - 6, 8, innerHeight - ph - 8);
+  const y = clamp(r.top - 6, vTop + 8, vTop + vh - ph - 8);
   notePanel.style.left = x + 'px';
   notePanel.style.top = y + 'px';
 }
+
+document.addEventListener('zhiya:viewport-resize', () => updateNoteAnchor());
 
 export function openNoteFor(id: string): void {
   const t = topicOf(id);

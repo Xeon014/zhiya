@@ -1,5 +1,7 @@
   /* ============ 设计系统：暖纸 + 墨色 + 六支功能色 ============ */
   :root {
+    --tb-h: 52px;
+    --sb-h: 28px;
     --paper: #F6F4EF;
     --paper-deep: #EFECE4;
     --ink: #23272F;
@@ -21,8 +23,8 @@
 
   /* ============ 工具栏：一根发丝线之上的克制 ============ */
   #toolbar {
-    position: fixed; inset: 0 0 auto 0; height: 52px; z-index: 40;
-    display: flex; align-items: center; gap: 6px; padding: 0 18px;
+    position: fixed; inset: 0 0 auto 0; height: calc(var(--tb-h) + env(safe-area-inset-top, 0px)); z-index: 40;
+    display: flex; align-items: center; gap: 6px; padding: env(safe-area-inset-top, 0px) 18px 0;
     background: color-mix(in srgb, var(--paper) 86%, white);
     backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--hairline);
@@ -53,7 +55,12 @@
 
   /* ============ 画布：无限工作台 ============ */
   #viewport {
-    position: fixed; inset: 52px 0 28px 0; overflow: hidden; cursor: default;
+    position: fixed;
+    top: calc(var(--tb-h) + env(safe-area-inset-top, 0px));
+    right: 0;
+    left: 0;
+    bottom: calc(var(--sb-h) + env(safe-area-inset-bottom, 0px));
+    overflow: hidden; cursor: default;
     background:
       radial-gradient(circle, rgba(35,39,47,.10) 1px, transparent 1.2px) 0 0 / 26px 26px,
       linear-gradient(var(--paper), var(--paper));
@@ -99,8 +106,9 @@
 
   /* ============ 状态栏 ============ */
   #statusbar {
-    position: fixed; inset: auto 0 0 0; height: 28px; z-index: 40;
-    display: flex; align-items: center; justify-content: space-between; padding: 0 14px;
+    position: fixed; inset: auto 0 0 0; height: calc(var(--sb-h) + env(safe-area-inset-bottom, 0px)); z-index: 40;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 14px env(safe-area-inset-bottom, 0px);
     background: color-mix(in srgb, var(--paper) 86%, white);
     border-top: 1px solid var(--hairline);
     font-size: 11px; color: var(--ink-faint); user-select: none;
@@ -164,7 +172,9 @@
 
   /* ============ Toast ============ */
   #toast {
-    position: fixed; left: 50%; bottom: 46px; transform: translateX(-50%) translateY(16px);
+    position: fixed; left: 50%;
+    bottom: calc(46px + env(safe-area-inset-bottom, 0px));
+    transform: translateX(-50%) translateY(16px);
     background: var(--ink); color: var(--paper); font-size: 13px; padding: 9px 18px;
     border-radius: 9px; opacity: 0; pointer-events: none; z-index: 60;
     transition: all .25s cubic-bezier(.2,.9,.3,1.2); box-shadow: var(--shadow-lift);
@@ -193,8 +203,18 @@
 
   /* ============ 界面壳层：侧边栏 / 迷你工具条 / 缩放簇 ============
      主题只改 #viewport 上的纸色和墨色。侧边栏固定白底、页面墨色，不跟画布走。 */
+  #sidebar-backdrop {
+    position: fixed; inset: 0; z-index: 41; background: rgba(35,39,47,.35);
+    opacity: 0; pointer-events: none; transition: opacity .2s ease;
+  }
+  #sidebar-backdrop.open { opacity: 1; pointer-events: auto; }
+
   #sidebar {
-    position: fixed; top: 52px; right: 0; bottom: 28px; width: 268px; z-index: 42;
+    position: fixed;
+    top: calc(var(--tb-h) + env(safe-area-inset-top, 0px));
+    right: 0;
+    bottom: calc(var(--sb-h) + env(safe-area-inset-bottom, 0px));
+    width: 268px; z-index: 42;
     background: white; border-left: 1px solid var(--hairline);
     display: none; flex-direction: column;
   }
@@ -232,7 +252,8 @@
   #mini-bar button:disabled { opacity: .35; cursor: default; }
 
   #zoom-cluster {
-    position: fixed; right: 16px; bottom: 42px; z-index: 44;
+    position: fixed; right: 16px;
+    bottom: calc(42px + env(safe-area-inset-bottom, 0px)); z-index: 44;
     display: flex; align-items: center; gap: 2px;
     background: white; border: 1px solid var(--hairline); border-radius: 10px;
     box-shadow: var(--shadow-soft); padding: 3px;
@@ -426,15 +447,27 @@
   #hint .touch-only { display: none; }
 
   /* ============ 窄屏 / 触摸指针布局 ============ */
+  #ctx-menu.mobile-sheet {
+    border-radius: 14px 14px 10px 10px;
+    padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+    -webkit-overflow-scrolling: touch;
+  }
+  #note-panel.mobile-dock {
+    left: 8px !important; right: 8px !important; width: auto !important;
+    max-height: min(42vh, 320px);
+  }
+  #note-panel.mobile-dock textarea { min-height: 120px; max-height: 28vh; }
+
   @media (max-width: 720px) {
-    #toolbar { height: 46px; padding: 0 10px; gap: 4px; }
+    :root { --tb-h: 46px; }
+    #toolbar { padding-left: 10px; padding-right: 10px; gap: 4px; }
     .brand { margin-right: 6px; }
     .brand span { display: none; }
     .tb-btn { padding: 0 9px; font-size: 12.5px; }
     .tb-btn kbd { display: none; }
-    #structure-select { max-width: 104px; font-size: 12px; }
-    #viewport { inset: 46px 0 28px 0; }
-    #sidebar { top: 46px; width: min(100vw, 360px); box-shadow: var(--shadow-lift); }
+    .tb-narrow-hide { display: none !important; }
+    #structure-select { max-width: min(38vw, 140px); font-size: 12px; flex: 1; min-width: 0; }
+    #sidebar { width: min(100vw, 360px); box-shadow: var(--shadow-lift); }
     #sheet-bar { flex-wrap: nowrap; overflow-x: auto; padding: 6px 10px; scrollbar-width: none; }
     #sheet-bar::-webkit-scrollbar { display: none; }
     .sheet-tab { max-width: 118px; flex-shrink: 0; }
