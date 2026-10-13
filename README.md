@@ -4,7 +4,7 @@
 
 **用户请看 [使用说明.md](使用说明.md)**——`npm run release` 产出绿色便携包 zip，解压后双击「启动枝桠.bat」即用（完整功能：附件持久 / 原生保存 / 可装 PWA）。
 
-**在线体验（GitHub Pages）**：<https://xeon014.github.io/zhiya/>（推送 `main` 后由 Actions 自动构建部署；数据仍保存在本机浏览器，非云端账号）。
+**在线体验（GitHub Pages）**：<https://www.hoven.zone/zhiya/>（仓库：<https://github.com/Xeon014/zhiya>；推送 `main` 由 Actions 部署；导图数据仍在访客浏览器本地，无云端账号）。
 
 ## 快速开始（开发者）
 
